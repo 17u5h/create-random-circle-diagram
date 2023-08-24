@@ -4,27 +4,27 @@ import {minRadius, sectorColors} from "../constants/constants";
 
 export const createDiagramParams = () => {
 
-	const anglesAndRadii = generateSectorsParams()
+	const diagramParams = generateSectorsParams()
 
-	for (let i = 0; i < anglesAndRadii.length; i++) {
+	for (let i = 0; i < diagramParams.length; i++) {
 
-		anglesAndRadii[i].id = i + 1
-		anglesAndRadii[i].stroke = sectorColors[i]
-		anglesAndRadii[i].strokeWidth = 2 * (anglesAndRadii[i].radius - minRadius)
-		const sectorLength = calcSectorLength(anglesAndRadii[i].radius, anglesAndRadii[i].angle)
-		anglesAndRadii[i].strokeDasharray = `${sectorLength} 100`
-		anglesAndRadii[i].sectorLength = sectorLength
+		diagramParams[i].id = i + 1
+		diagramParams[i].stroke = sectorColors[i]
+		diagramParams[i].strokeWidth = 2 * (diagramParams[i].radius - minRadius)
+		const sectorLength = calcSectorLength(diagramParams[i].radius, diagramParams[i].angle)
+		diagramParams[i].strokeDasharray = `${sectorLength} 100`
+		diagramParams[i].sectorLength = sectorLength
 
 		const shifts = [0]
 
 		for (let j = 0; j < i; j++) {
-			const dashoffset = anglesAndRadii[i].radius * anglesAndRadii[j].sectorLength / anglesAndRadii[j].radius
+			const dashoffset = diagramParams[i].radius * diagramParams[j].sectorLength / diagramParams[j].radius
 			shifts.push(dashoffset)
 		}
 
 		const summaryShift = shifts.reduce((acc, shift) => (acc - shift), 0)
-		anglesAndRadii[i].strokeDashoffset = summaryShift
+		diagramParams[i].strokeDashoffset = summaryShift
 	}
 
-	return anglesAndRadii
+	return diagramParams
 }
